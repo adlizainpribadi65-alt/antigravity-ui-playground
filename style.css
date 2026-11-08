@@ -1,0 +1,151 @@
+:root {
+    --text-primary: #fdfbfb;
+    --text-accent: #ebd5e8;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent scrolling, true single-page feel */
+    background: linear-gradient(135deg, #050b14, #130a21, #0a1128, #180520);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Canvas background */
+#particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none; /* Let clicks pass through */
+}
+
+/* Main Container */
+.container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Header */
+.header {
+    position: absolute;
+    top: 5vh;
+    width: 100%;
+    text-align: center;
+}
+
+.brand {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text-accent);
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    animation: floatTitle 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatTitle {
+    from { transform: translateY(0); }
+    to { transform: translateY(-8px); }
+}
+
+/* Flower Visual */
+.flower-container {
+    width: clamp(250px, 40vw, 500px);
+    height: clamp(250px, 40vw, 500px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Inner wrapper for continuous gentle sway */
+.flower-sway {
+    width: 100%;
+    height: 100%;
+    animation: organicSway 8s ease-in-out infinite alternate;
+    transform-origin: bottom center; /* Sway like a stem */
+}
+
+@keyframes organicSway {
+    0% { transform: rotate(-3deg) scale(0.98); }
+    50% { transform: rotate(1deg) scale(1.02); }
+    100% { transform: rotate(3deg) scale(0.98); }
+}
+
+#flower-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 
+       Because the AI generated image has a black background, 
+       we use screen blending mode to make the background disappear,
+       leaving only the glowing luminous parts of the flower.
+    */
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 0 30px rgba(255, 180, 200, 0.4)) contrast(1.2) brightness(1.1);
+    transition: transform 0.4s ease-out; /* For parallax effect */
+    cursor: pointer;
+}
+
+/* Hover bloom effect */
+.flower-container:hover #flower-image {
+    filter: drop-shadow(0 0 50px rgba(255, 180, 200, 0.6)) contrast(1.3) brightness(1.3);
+}
+
+/* Quotes */
+.quotes-container {
+    position: absolute;
+    bottom: 10vh;
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
+    min-height: 80px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quote {
+    font-family: var(--font-heading);
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    line-height: 1.6;
+    color: var(--text-accent);
+    opacity: 0;
+    transition: opacity 2s ease-in-out, transform 2s ease-out;
+    transform: translateY(15px);
+    font-style: italic;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.quote.active {
+    opacity: 1;
+    transform: translateY(0);
+}
